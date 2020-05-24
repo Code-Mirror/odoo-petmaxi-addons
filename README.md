@@ -1,1 +1,1 @@
-# odoo-petmaxi
+# odoo-petmaxi-addons
