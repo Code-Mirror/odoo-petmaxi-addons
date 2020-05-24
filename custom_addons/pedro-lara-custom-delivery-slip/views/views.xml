@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+      
+    <!-- Vista formulario albaranes -->
+    <record model="ir.ui.view" id="pedro_lara_custom_picking_tree_view">
+      <field name="name">pedro.lara.custom.picking.tree.view</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"></field>
+      <field name="arch" type="xml">
+
+        <!-- Tree view -->
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
+          <field name="product_barcode"/>
+        </xpath>
+
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="after">
+          <field name="units_per_pallet"/>
+          <field name="pallet_quantity"/>
+          <field name="product_unit_weight"/>
+        </xpath>
+        
+        <!-- Header -->
+        <xpath expr="//field[@name='origin']" position="after">
+          <field name="pallet_total" />
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

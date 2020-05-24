@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+
+        <!-- Personalizar pedido -->
+        <template id="pedro_lara_custom_order_report_document" inherit_id="sale.report_saleorder_document">
+            <!--Eliminar parte de direcciones de envío y facturación (cuando son distintas se muestra sólo la del cliente)-->
+            <xpath expr="/t/t/t[3]" position="replace">
+            </xpath>
+            <!--Añadir campo de código de barras-->
+            <xpath expr="/t/t/div/table/thead/tr/th[1]" position="before">
+                <th>
+                <span>Código de barras</span>
+                </th>
+            </xpath>
+            <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="before">
+                <td>
+                <span t-field="line.product_id.barcode"/>
+                </td>
+            </xpath>
+            <!--Añadir almacén correspondiente-->
+            <xpath expr="//div[contains(@id, 'informations')]/div[5]"  position="after">
+                <div name="reference" class="col-auto mw-100 mb-2" t-if="doc.warehouse_id.name">
+                    <strong>Almacén: </strong>
+                    <p class="m-0" t-field="doc.warehouse_id.name"/>
+                </div>
+            </xpath>
+            <!--Añadir campo de "notas internas" del cliente al final
+             <xpath expr="/t/t/div/p" position="before">
+                <div class="row row-comment">
+                <div class="col">
+                    <span t-field="doc.partner_id.comment"/>
+                </div>
+                </div>
+            </xpath>
+            <xpath expr="/t/t/div/div[4]/div" position="attributes">
+                <attribute name="style" separator=";" add="margin-top:50px"/>
+            </xpath>-->
+
+            <!--Marca de agua-->
+            <!--NOTA IMPORTANTE: Hemos eliminado el "background-image" 
+            de la regla contenida en addons/web/static/src/scss/layout_background.scss
+            para eliminar la marca de agua por defecto en todos los reportes.-->
+            
+            <xpath expr="//div[contains(@class, 'page')]" position="before">
+                <div class="background-image" style="
+                    position: absolute;
+                    opacity:0.15;
+                    width: 70%;
+                    height: auto;
+                    z-index:1000;
+                    margin-top: -5em;
+                    margin-left: 2em;"
+                    >
+                    <img src="https://i.ibb.co/txWPBcq/image-gris-2.png"/>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

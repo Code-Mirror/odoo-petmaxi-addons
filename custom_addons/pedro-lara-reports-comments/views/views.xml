@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+      <!-- Campo en facturas -->
+      <template id="pedro_lara_custom_invoice_report_document_payment_methods" inherit_id="account.report_invoice_document_with_payments">
+          <xpath expr="/t/t/div/p" position="before">
+                <div class="row row-comment" style="margin-top:25px;">
+                <div class="col">
+                    <span t-field="o.invoice_comment_payment_method"/>
+                </div>
+                </div>
+          </xpath>
+      </template>
+
+      <!-- Campo en órdenes -->
+      <template id="pedro_lara_custom_order_report_document_comment" inherit_id="sale.report_saleorder_document">
+            <xpath expr="/t/t/div/p" position="before">
+                <div class="row row-comment" style="margin-top:25px;">
+                <div class="col">
+                    <span t-field="doc.order_comment"/>
+                </div>
+                </div>
+            </xpath>
+      </template>
+
+
+      <!-- Añadir campos en la vista del cliente. -->
+      <record model="ir.ui.view" id="pedro-lara-report-comments-partner">
+        <field name="name">pedroLaraPaymentMethods_res_partner_edit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_payment_term_id']"
+                  position="after">
+                  <field name="comment_sale_order" style='' placeholder="Esta nota se mostrará en el reporte PDF de una venta."/>
+                  <field name="comment_payment_method" style='' placeholder="Esta nota se mostrará en el reporte PDF de una factura (Por ej: Métodos de pago preferidos por el cliente)."/>
+            </xpath>
+        </field>
+      </record>
+  </data>
+</odoo>

@@ -1,0 +1,109 @@
+<odoo>
+    <data>
+
+        <!-- Personalizar invoice -->
+        <template id="pedro_lara_custom_invoice_report_document" inherit_id="account.report_invoice_document_with_payments">
+            <!--Quitar dirección de envío-->
+            <xpath expr="/t[1]/t[1]/t[2]/t[1]/t[1]/div[1]/div[1]" position="replace">
+            </xpath>
+            <xpath expr="/t/t/t[2]/t/t/div/strong" position="replace">
+            </xpath>
+            <!--Código de barras-->
+            <xpath expr="/t/t/div/table/thead/tr/th[1]" position="before">
+                <th>
+                <span>Código de barras</span>
+                </th>
+            </xpath>
+            <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="before">
+                <td>
+                <span t-field="line.product_id.barcode"/>
+                </td>
+            </xpath>
+            <!--Cambiar "Origen" por "Pedido"-->
+            <xpath expr="/t/t/div/div[1]/div[4]/strong" position="replace"><strong>Pedido:</strong></xpath>
+            
+            <!--Ocultar referencia en la parte superior-->
+            <xpath expr="//div[contains(@name, 'reference')]" position="replace">
+            </xpath>
+
+            <!--Ocultar texto referencia de pago-->
+            <xpath expr="//p[contains(@t-if, 'reference')]" position="replace">
+            </xpath>
+
+            <!--Mostrar código SEPA-->
+            <xpath expr="//div[contains(@id, 'informations')]/div[5]"  position="after">
+                <div name="reference" class="col-auto mw-100 mb-2" t-if="o.partner_sepa_code">
+                    <strong>Código SEPA: </strong>
+                    <p class="m-0" t-field="o.partner_sepa_code"/>
+                </div>
+            </xpath>
+
+            <!--Facturas rectificativas (mostrar cantidades en negativo)-->
+
+               <!--En líneas de factura-->
+                <xpath expr="//span[contains(@t-field, 'line.price_subtotal')]" position="before">
+                    <span t-if="o.type == 'out_refund'" class="signo-negativo">&#8209;</span>
+                </xpath>
+
+                <!--Subtotal-->
+                <xpath expr="//div[contains(@id,'total')]//span" position="before">
+                    <span t-if="o.type == 'out_refund'" class="signo-negativo">&#8209;</span>
+                </xpath> 
+
+                <!--Total-->
+                <xpath expr="//span[contains(@t-field,'o.amount_total')]" position="before">
+                    <span t-if="o.type == 'out_refund'" class="signo-negativo">&#8209;</span>
+                </xpath>
+
+                <!--Signo negativo en sección de impuestos desglosados-->
+                    
+                    <!--En el caso de tener 1 sólo impuesto-->
+                    <xpath expr="/t/t/div/div[2]/div/div/table/t[1]/tr/t[1]/td[2]/span" position="before">
+                        <span t-if="o.type == 'out_refund'" class="signo-negativo">&#8209;</span>
+                    </xpath>
+
+                    <!--En el caso de tener dmúltiples impuestos-->
+                    <xpath expr="/t/t/div/div[2]/div/div/table/t[1]/tr/t[2]/td[2]/span" position="before">
+                        <span t-if="o.type == 'out_refund'" class="signo-negativo">&#8209;</span>
+                    </xpath>
+
+                <!--Aumentar tamaño columnas para evitar line break-->
+                <xpath expr="/t/t/div/div[2]/div/div/table/t[1]/tr/t[1]/td[2]" position="attributes">
+                    <attribute name="style" separator=";" add="min-width:150px"/>
+                </xpath>
+                <xpath expr="/t/t/div/div[2]/div/div/table/tr[1]/td[2]" position="attributes">
+                    <attribute name="style" separator=";" add="min-width:150px"/>
+                </xpath>
+
+                 <xpath expr="/t/t/div/div[2]/div/div/table/tr[1]/td[1]" position="attributes">
+                    <attribute name="style" separator=";" add="min-width:200px"/>
+                </xpath>
+                <xpath expr="/t/t/div/div[2]/div/div/table/t[1]/tr/t[1]/td[1]" position="attributes">
+                    <attribute name="style" separator=";" add="min-width:200px"/>
+                </xpath>
+                <xpath expr="/t/t/div/div[2]/div/div/table" position="attributes">
+                    <attribute name="style" separator=";" add="margin-left: -90px"/>
+                </xpath>
+
+            <!--Marca de agua-->
+            <!--NOTA IMPORTANTE: Hemos eliminado el "background-image" 
+            de la regla contenida en addons/web/static/src/scss/layout_background.scss
+            para eliminar la marca de agua por defecto en todos los reportes.-->
+            
+            <xpath expr="//div[contains(@class, 'page')]" position="before">
+                <div class="background-image" style="
+                    position: absolute;
+                    opacity:0.15;
+                    width: 70%;
+                    height: auto;
+                    z-index:1000;
+                    margin-top: -5em;
+                    margin-left: 2em;"
+                    >
+                    <img src="https://i.ibb.co/txWPBcq/image-gris-2.png"/>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

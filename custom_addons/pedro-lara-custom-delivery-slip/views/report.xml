@@ -1,0 +1,206 @@
+<odoo>
+    <data>
+
+        <!-- Personalizar delivery document -->
+        <template id="pedro_lara_custom_report_delivery_document" inherit_id="stock.report_delivery_document">
+
+            <!--Código de barras-->
+            <xpath expr="//table[3]/thead/tr/th[1]" position="before">
+                <th>
+                    <span>Código de barras</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[3]/tbody/tr/td[1]" position="before">
+                <td>
+                    <span t-field="move_line.product_id.barcode"/>
+                </td>
+            </xpath>
+            <xpath expr="//table[3]/thead/tr/th[1]" position="attributes">
+                <attribute name="style" separator=";" add="width:180px"/>
+            </xpath>
+            <!--Código de barras en estado "no finalizado"-->
+            <xpath expr="//table[2]/thead/tr/th[1]" position="before">
+                <th>
+                    <span>Código de barras</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[2]/tbody/tr/td[1]" position="before">
+                <td>
+                    <span t-field="move.product_id.barcode"/>
+                </td>
+            </xpath>
+            <xpath expr="//table[2]/thead/tr/th[1]" position="attributes">
+                <attribute name="style" separator=";" add="width:180px"/>
+            </xpath>
+            <!-- Palets en cada línea state==done-->
+            <xpath expr="//table[3]/thead/tr/th[@class='text-center']" position="after">
+                <th class='text-center'>
+                <span>Palets</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[3]/tbody/tr/td[@class='text-center']" position="after">
+                <td class='text-center'>
+                <span t-esc="round(move_line.move_id.pallet_quantity, 2)"/>
+                </td>
+            </xpath>
+            <!--Kg por unidad-->
+            <!-- Kg por unidad: state!=done -->
+            <xpath expr="//table[2]/thead/tr/th[3]" position="after">
+                <th class='text-center'>
+                <span>Kg/Unidad</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[2]/tbody/tr/td[3]" position="after">
+                <td class='text-center'>
+                <span t-field="move.product_id.weight"/> 
+                </td>
+            </xpath>
+            
+            <!--Kg totales por línea-->
+            <!--Kg totales por línea: state!=done-->
+                <xpath expr="//table[2]/thead/tr/th[4]" position="after">
+                    <th class='text-center'>
+                    <span>Kilogramos</span>
+                    </th>
+                </xpath>
+                <xpath expr="//table[2]/tbody/tr/td[4]" position="after">
+                    <td class='text-center'>
+                    <span t-field="move.stock_weight"/> 
+                    </td>
+                </xpath>
+            <!--Kg totales por línea: state==done-->
+            <xpath expr="//table[3]/thead/tr/th[@class='text-center']" position="after">
+                <th class='text-center'>
+                <span>Kilogramos</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[3]/tbody/tr/td[@class='text-center']" position="after">
+                <td class='text-center'>
+                <span t-field="move_line.move_id.stock_weight"/> 
+                </td>
+            </xpath>
+            <!-- Kg por unidad: state==done -->
+            <xpath expr="//table[3]/thead/tr/th[@class='text-center']" position="after">
+                <th class='text-center'>
+                <span>Kg/Unidad</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[3]/tbody/tr/td[@class='text-center']" position="after">
+                <td class='text-center'>
+                <span t-field="move_line.product_id.weight"/>
+                </td>
+            </xpath>
+            <!--Palets en cada línea: state!=done-->
+            <xpath expr="//table[2]/thead/tr/th[4]" position="after">
+                <th class='text-center'>
+                <span>Palets</span>
+                </th>
+            </xpath>
+            <xpath expr="//table[2]/tbody/tr/td[4]" position="after">
+                <td class='text-center'>
+                <span t-esc="round(move.sale_line_id.pallet_qty, 2)"/>
+                </td>
+            </xpath>
+            <!--Kg y palets totales-->
+            <xpath expr="/t/t/t/div/p" position="after">
+                <div class="row peso-total" >
+                <div class="col-2" >
+                    <span>
+                    <strong>Peso total:</strong>
+                    <br/>
+                    </span>
+                    <span t-field="o.stock_total_weight"/>
+                    <span> Kg</span>
+                </div>
+                <div class="col-1"/>
+                    <span>
+                    <strong>Palets totales:</strong>
+                    <br/>
+                    </span>
+                    <span t-esc="round(o.pallet_total, 2)"/>
+                <div class="col-1"/>
+                <div class="col-1"/>
+                </div>
+            </xpath>
+            
+            <!--Añadir campo de "notas internas" de la entrega después de las notas del cliente-->
+            <xpath expr="/t/t/t/div/p" position="after">
+                <div class="row notas-entrega">
+                <div class="col">
+                    <span t-field="o.note"/>
+                </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[contains(@class, 'notas-entrega')]" position="attributes">
+                <attribute name="style" separator=";" add="margin-top:5px"/>
+                <attribute name="style" separator=";" add="margin-bottom:25px"/>
+            </xpath>
+
+            <!--Añadir título "Albarán de entrega" y quitar referencia como título-->
+                <xpath expr="/t/t/t/div/h2" position="before">
+                    <div class="row">
+                        <div class="col h2">
+                            <span>New Title</span>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="/t/t/t/div/div[2]/div/span" position="replace">
+                    <span><p>Albarán de entrega</p></span>
+                </xpath>
+                <xpath expr="/t/t/t/div/div[2]/div/span/p" position="replace">
+                    <p><font style="font-size: 18px;">​</font>Albarán de entrega</p>
+                </xpath>
+                <xpath expr="/t/t/t/div/div[2]/div" position="attributes">
+                    <attribute name="style" separator=";" add="margin-top:20px"/>
+                </xpath>
+                <xpath expr="/t/t/t/div/h2/span" position="attributes">
+                    <attribute name="style" separator=";" add="display:none;x"/>
+                </xpath>
+
+            <!--Cambiar denominación "Orden" por "Pedido"-->
+            <xpath expr="/t/t/t/div/table[1]/thead/tr/th[1]/strong" position="replace">
+                <strong>Pedido</strong>
+            </xpath>
+
+            <!--Mostrar dirección completa y los dos teléfonos en cliente-->
+                <xpath expr="/t[1]/t[1]/t[1]/t[3]/t[1]/div[1]" position="attributes">
+                    <attribute name="t-options-fields">['name', 'phone', 'mobile', 'address']</attribute>
+                </xpath>
+            
+
+            <!--Añadir imagen de firma al final-->
+
+            <xpath expr="//div[contains(@class, 'peso-total')]" position="after">
+                <div class="firma">
+                    <img class="img-fluid" src="https://i.ibb.co/6bGPWZG/firma.png"/>
+                </div>
+                
+            </xpath>
+            <xpath expr="//div[contains(@class, 'firma')]" position="attributes">
+                <attribute name="style" separator=";" add="width: 97%; margin-top: 30px;"/>
+            </xpath>
+
+            <!--Marca de agua-->
+            <!--NOTA IMPORTANTE: Hemos eliminado el "background-image" 
+            de la regla contenida en addons/web/static/src/scss/layout_background.scss
+            para eliminar la marca de agua por defecto en todos los reportes.-->
+            
+            <xpath expr="//div[contains(@class, 'page')]" position="before">
+                <div class="background-image" style="
+                        position: absolute;
+                        opacity:0.15;
+                        width: 70%;
+                        height: auto;
+                        z-index:1000;
+                        margin-top: -5em;
+                        margin-left: 2em;"
+                        >
+                        <img src="https://i.ibb.co/txWPBcq/image-gris-2.png"/>
+                </div>
+            </xpath>
+
+        </template>
+        
+
+    </data>
+</odoo>

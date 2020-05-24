@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+    
+    <!-- This adds SepaCode to the Variant edit page -->
+    <record model="ir.ui.view" id="pedro-lara-custom-invoice-analysis.res_partner_edit">
+      <field name="name">pedroLaraCustomInvoiceAnalysis_res_partner_edit</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"></field>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='vat']"
+                position="after">
+                <field name="sepa_code"/>
+          </xpath>
+      </field>
+    </record>
+
+    <!-- This adds SepaCpde to the Invoice list page -->
+    <record model="ir.ui.view" id="pedro-lara-custom-invoice-analysis.invoice_list">
+      <field name="name">pedroLaraCustomInvoiceAnalysis_invoice_list</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_tree_with_onboarding"></field>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='origin']"
+                position="after">
+                <field name="partner_sepa_code"/>
+          </xpath>
+      </field>
+    </record>
+
+
+  </data>
+</odoo>

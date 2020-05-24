@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <xpath expr="/t/t/t/div/table[2]/thead/tr/th[1]" position="before">
+            <th>
+                <span>Código de barras</span>
+            </th>
+        </xpath>
+        <xpath expr="/t/t/t/div/table[2]/tbody/tr/td[1]" position="before">
+            <td>
+                <span t-field="o.product_id.barcode"/>
+            </td>
+        </xpath>
+    </data>
+</odoo>
