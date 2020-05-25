@@ -66,9 +66,7 @@
                 position="after">
                 <field name="udPallet" 
                 attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu']),
-                ('product_variant_count', '&gt;', 1)]}" 
-                modifiers="{'invisible':['|',['type','not in',['product','consu']],
-                ['product_variant_count','&gt;',1]]}" />
+                ('product_variant_count', '&gt;', 1)]}" />
           </xpath>
       </field>
     </record>

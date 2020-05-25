@@ -6,13 +6,17 @@ _logger = logging.getLogger(__name__)
 
 
 class pedrolara_customStockPicking(models.Model):
-    _inherit = 'stock.picking'    
-    pallet_total = fields.Float('Total pallets', readonly=True, compute='_compute_total_pallets_amount')
+    _inherit = 'stock.picking'
+    
+    pallet_total = fields.Float(
+        'Total pallets',
+        readonly=True,
+        compute='_compute_total_pallets_amount'
+    )
 
+    # When the sent units change, we recalculate pallet amounts.
     @api.onchange('product_uom_qty')
     def _compute_total_pallets_amount(self):
-
-        _logger.info('ENTER COMPUTE TOTAL PALLETS')
 
         for picking in self:
             total_pallet = 0.0
@@ -21,7 +25,6 @@ class pedrolara_customStockPicking(models.Model):
             picking.update({
                 'pallet_total': total_pallet
             })
-            _logger.info(total_pallet)
 
 
 class pedrolara_customMoveLines(models.Model):
@@ -35,7 +38,6 @@ class pedrolara_customMoveLines(models.Model):
     @api.onchange('product_uom_qty')
     def _compute_pallets_amount(self):
         
-        _logger.info('ENTER COMPUTE PALLETS AMOUNT')
         for line in self:
             if line.units_per_pallet > 0.:
                 pallets = line.product_qty / (1.*line.units_per_pallet)
