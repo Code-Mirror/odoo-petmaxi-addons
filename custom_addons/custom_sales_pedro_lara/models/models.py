@@ -11,8 +11,12 @@ class Custom_ProductTemplate_PedroLara(models.Model):
     _inherit = "product.template"
 
     udPallet = fields.Integer(
-        'Unidades por palet', help='Número de unidades que caben en un palet', compute='_compute_udPallet',
-        inverse='_set_udPallet', store=True)
+        'Unidades por palet', 
+        help='Número de unidades que caben en un palet',
+        compute='_compute_udPallet',
+        inverse='_set_udPallet',
+        store=True
+    )
 
     @api.depends('product_variant_ids', 'product_variant_ids.udPallet')
     def _compute_udPallet(self):
@@ -106,14 +110,14 @@ pallet and another one for the quantity of this product pallets in the order
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    # Change description to add 'kg' to the variant products
+    # Change description to add 'kg' to the product variants
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine,self).get_sale_order_line_multiline_description_sale(product)
         if res.endswith(')'):
             res = res[:-1] + ' kg)'
         return res
 
-    udPallet = fields.Float('Unid Palet', readonly=True)#, compute='_compute_udPallet', inverse='_set_udPallet', default=0.0)
+    udPallet = fields.Float('Unid Palet', readonly=True)
     pallet_qty = fields.Float('Palets', readonly=True, compute='_compute_amount')
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
