@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class pedrolara_customStockPicking(models.Model):
     _inherit = 'stock.picking'
-    
+
     pallet_total = fields.Float(
         'Total pallets',
         readonly=True,
@@ -42,7 +42,6 @@ class pedrolara_customMoveLines(models.Model):
             if line.units_per_pallet > 0.:
                 pallets = line.product_qty / (1.*line.units_per_pallet)
                 line.update({'pallet_quantity':pallets})
-                _logger.info(pallets)
     
 
     
