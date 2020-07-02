@@ -24,18 +24,7 @@
                     <p class="m-0" t-field="doc.warehouse_id.name"/>
                 </div>
             </xpath>
-            <!--Añadir campo de "notas internas" del cliente al final
-             <xpath expr="/t/t/div/p" position="before">
-                <div class="row row-comment">
-                <div class="col">
-                    <span t-field="doc.partner_id.comment"/>
-                </div>
-                </div>
-            </xpath>
-            <xpath expr="/t/t/div/div[4]/div" position="attributes">
-                <attribute name="style" separator=";" add="margin-top:50px"/>
-            </xpath>-->
-
+            
             <!--Marca de agua-->
             <!--NOTA IMPORTANTE: Hemos eliminado el "background-image" 
             de la regla contenida en addons/web/static/src/scss/layout_background.scss

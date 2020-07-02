@@ -116,28 +116,12 @@
       			<section id="footer">
       				<!-- Footer -->
       				<section>
-      				<!--
-      					<p><a href="?language=en">en</a> | <a href="?language=es">es</a></p>
-      				-->
+      		
       				</section>
 
       				<section>
       					<ul class="icons">
-      						<!--
-      						<li><a href="${backURI}" class="fa fa-back"><span class="label">volver</span></a></li>
-      						<li><a href="" class="fa fa-home"><span class="label">Inicio</span></a></li>
-      							<li><a href="security/login.do" class="icon fa-sign-in"><span class="label">Login</span></a></li>
-      							<li><a href="j_spring_security_logout" class="icon fa-sign-out"><span class="label">Logout</span></a></li>
-
-      						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-      						<li><a href="https://www.facebook.com/maxipet.petcare/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-      						<li><a href="http://www.petmaxi.pt/" class="icon fa-dribbble"><span class="label">Web</span></a></li>
-      						<li><a href="mailto:Pedro.Lara@maxipet.pt" class="icon fa-envelope"><span class="label">email</span></a></li>
-      						-->
       						<li><a href="https://petmaxipedro.online/" class="icon  fa-sign-in"><span class="label">odoo</span></a></li>
-
-
       					</ul>
 
       				</section>

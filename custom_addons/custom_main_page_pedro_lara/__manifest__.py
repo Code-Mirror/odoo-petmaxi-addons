@@ -9,7 +9,7 @@
 
     """,
 
-    'author': "Andrés García & Pedro Lara",
+    'author': "Andrés García Castilla",
     'website': "",
 
     # Categories can be used to filter modules in modules listing

@@ -10,7 +10,7 @@
         - Añade el campo "código de barras" a cada línea
     """,
  
-    'author': "Andrés García @garcicasti",
+    'author': "Andrés García Castilla",
     'website': "https://www.linkedin.com/in/andgarcas/",
 
     # Categories can be used to filter modules in modules listing
